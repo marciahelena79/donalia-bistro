@@ -93,7 +93,7 @@ footer{background:var(--g2);color:#F3E9D2;text-align:center;padding:30px 20px;fo
 <footer><p><b>DonaLia Bistrô</b> · Sanduíche natural gourmet e chup chup gourmet</p><p><a href="https://wa.me/5537991222354" id="wal" target="_blank" rel="noopener">Falar no WhatsApp</a></p></footer>
 <script>
 let WA='5537991222354';
-let MENU={sanduiche:{n:'Sanduíche natural gourmet',d:'Patê de frango, purê de batatas e requeijão. Acompanha batata palha.',fl:[],p:20},'chup-chup':{n:'Chup chup gourmet',d:'Cremoso e geladinho. Escolha o seu sabor.',fl:['Maracujá','Morango','Ninho com chocolate','Ninho com Oreo'],p:10}};
+let MENU={sanduiche:{n:'Sanduíche natural gourmet',d:'Patê de frango, purê de batatas e requeijão. Acompanha batata palha.',fl:[],p:16},'chup-chup':{n:'Chup chup gourmet',d:'Cremoso e geladinho. Escolha o seu sabor.',fl:['Maracujá','Morango','Ninho com chocolate','Ninho com Oreo'],p:10}};
 const $=s=>document.querySelector(s),R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),E=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let cart=[];let NB=[];
 function fillB(){const c=$('#bairro').value;$('#bairro').innerHTML='<option value="">Selecione o bairro</option>'+NB.map(n=>`<option value="${E(n.name)}">${E(n.name)}</option>`).join('')+'<option value="__outro">Outro bairro (valor a combinar)</option>';if(c)$('#bairro').value=c;togB()}
