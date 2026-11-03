@@ -108,7 +108,7 @@ function tiles(){$('#tiles').innerHTML=TL.map((t,x)=>{const q=qty(t.k,t.f);retur
 function bump(x,d){const t=TL[x];if(!t)return;let c=cart.find(i=>i.k==t.k&&i.fl==t.f);if(!c){if(d<0)return;c={k:t.k,n:t.n,q:0,v:t.p,fl:t.f,obs:''};cart.push(c)}c.q=Math.max(0,Math.min(50,c.q+d));if(!c.q)cart.splice(cart.indexOf(c),1);draw()}
 function draw(){const tot=cart.reduce((a,i)=>a+i.q*i.v,0);
 $('#cart').innerHTML=cart.length?cart.map((i,x)=>`<div class="item"><div><b>${i.q}x ${E(i.n)}</b><small>${[i.fl&&'Sabor: '+E(i.fl),E(i.obs)].filter(Boolean).join(' · ')}</small></div><div>${R(i.q*i.v)} <button class="x" data-x="${x}" type="button" aria-label="Remover">×</button></div></div>`).join(''):'<p class="note">Nenhum item adicionado ainda.</p>';
-const f=fee(),en=$('#ent').value=='Entrega';$('#fee').textContent=!en?'Retirada, sem taxa':f===null?'A combinar':R(f);$('#total').textContent=R(tot+(f||0))+(en&&f===null?' + entrega':'');$('#send').disabled=!cart.length;tiles()}
+const f=fee(),en=$('#ent').value=='Entrega';$('#fee').textContent=!en?'Retirada, sem taxa':f===null?'A combinar':f===0?'Grátis':R(f);$('#total').textContent=R(tot+(f||0))+(en&&f===null?' + entrega':'');$('#send').disabled=!cart.length;tiles()}
 $('#tiles').onclick=e=>{const b=e.target.closest('button[data-a]');if(b)bump(+b.dataset.i,b.dataset.a=='+'?1:-1)};
 $('#cards').onclick=e=>{const b=e.target.closest('button');if(!b)return;const m=MENU[b.dataset.k];if(m&&!m.fl.length&&!qty(b.dataset.k,''))bump(TL.findIndex(t=>t.k==b.dataset.k),1);location.hash='pedido'};
 $('#cart').onclick=e=>{const b=e.target.closest('.x');if(b){cart.splice(+b.dataset.x,1);draw()}};
@@ -127,7 +127,7 @@ if(res.ok){r=await res.json()}else{const j=await res.json().catch(()=>({}));if(r
 const tot=r?+r.items_total:cart.reduce((a,i)=>a+i.q*i.v,0),f=r?(r.fee_pending?null:+r.delivery_fee):fee(),L=['Olá, DonaLia! Quero fazer um pedido'+(r?' (nº '+r.number+')':'')+':',''];
 cart.forEach((i,x)=>L.push((x+1)+') '+i.q+'x '+i.n+(i.fl?' (sabor: '+i.fl+')':'')+' - '+R(i.q*i.v)+(i.obs?'\n   Obs: '+i.obs:'')));
 if(gobs)L.push('','Obs: '+gobs);L.push('','Total dos itens: '+R(tot));
-if(en){L.push('Taxa de entrega: '+(f===null?'a combinar':R(f)),'Total com entrega: '+R(tot+(f||0))+(f===null?' + entrega':''),'','ENTREGA','Rua: '+payload.street+', nº '+payload.number,'Bairro: '+b+' - Divinópolis/MG');if(payload.complement)L.push('Complemento: '+payload.complement);if(payload.reference)L.push('Referência: '+payload.reference)}else L.push('Vou retirar o pedido');
+if(en){L.push('Taxa de entrega: '+(f===null?'a combinar':f===0?'grátis':R(f)),'Total com entrega: '+R(tot+(f||0))+(f===null?' + entrega':''),'','ENTREGA','Rua: '+payload.street+', nº '+payload.number,'Bairro: '+b+' - Divinópolis/MG');if(payload.complement)L.push('Complemento: '+payload.complement);if(payload.reference)L.push('Referência: '+payload.reference)}else L.push('Vou retirar o pedido');
 L.push('','Nome: '+nome,'WhatsApp: '+$('#tel').value.trim());
 const url='https://wa.me/'+WA+'?text='+encodeURIComponent(L.join('\n'));
 btn.textContent=lab;if(r){cart=[];$('#obs').value='';draw()}else{btn.disabled=false;er.textContent='Atenção: seu pedido foi enviado pelo WhatsApp, mas não ficou registrado no sistema. Aguarde a confirmação pelo WhatsApp.'}
