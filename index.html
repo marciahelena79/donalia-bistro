@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
-<title>DonaLia Bistrô · Sanduíche natural e geladinho gourmet</title>
-<meta name="description" content="Sanduíche natural gourmet e geladinho gourmet. Monte seu pedido e envie pelo WhatsApp.">
+<title>DonaLia Bistrô · Sanduíche natural, geladinho e cheesecake</title>
+<meta name="description" content="Sanduíche natural gourmet, geladinho gourmet e cheesecake. Monte seu pedido e envie pelo WhatsApp.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="DonaLia Bistrô"><meta property="og:description" content="Sanduíche natural gourmet e geladinho gourmet. Peça pelo WhatsApp.">
+<meta property="og:title" content="DonaLia Bistrô"><meta property="og:description" content="Sanduíche natural gourmet, geladinho gourmet e cheesecake. Peça pelo WhatsApp.">
 <meta property="og:type" content="website"><meta property="og:image" content="images/og.jpg">
 <link rel="icon" href="images/icon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +64,7 @@ footer{background:var(--g2);color:#F3E9D2;text-align:center;padding:30px 20px;fo
 </style></head><body>
 <header><div class="wrap"><img src="images/logo-small.webp" alt="DonaLia Bistrô"><b>DonaLia Bistrô</b><a href="#cardapio">Cardápio</a><a href="#pedido">Pedido</a></div></header>
 <div class="hero"><img class="c tl" src="images/corner-tl.webp" alt=""><img class="c tr" src="images/corner-tr.webp" alt=""><img class="c bl" src="images/corner-bl.webp" alt=""><img class="c br" src="images/corner-br.webp" alt="">
-<h1 class="lg"><img src="images/logo.webp" alt="DonaLia Bistrô"></h1><h2>Feito com carinho, do jeito que você gosta.</h2><p>Sanduíche natural gourmet e geladinho gourmet. Escolha e receba em casa.</p><a class="btn" href="#pedido">Fazer meu pedido</a></div>
+<h1 class="lg"><img src="images/logo.webp" alt="DonaLia Bistrô"></h1><h2>Feito com carinho, do jeito que você gosta.</h2><p>Sanduíche natural gourmet, geladinho gourmet e cheesecake. Escolha e receba em casa.</p><a class="btn" href="#pedido">Fazer meu pedido</a></div>
 
 <section id="cardapio"><div class="wrap"><h2>Cardápio</h2><p class="sub">Escolha o seu preferido e monte o pedido logo abaixo.</p><div class="cards" id="cards"></div></div></section>
 
@@ -91,10 +91,10 @@ footer{background:var(--g2);color:#F3E9D2;text-align:center;padding:30px 20px;fo
 
 <section><div class="wrap"><h2>Como pedir</h2><div class="steps"><div><b>1</b><h3>Escolha</h3><p>O produto, o sabor e a quantidade.</p></div><div><b>2</b><h3>Envie</h3><p>Toque em enviar e a mensagem já abre pronta no WhatsApp.</p></div><div><b>3</b><h3>Receba</h3><p>Confirmamos o pedido, o valor da entrega e o prazo.</p></div></div></div></section>
 
-<footer><p><b>DonaLia Bistrô</b> · Sanduíche natural gourmet e geladinho gourmet</p><p><a href="https://wa.me/5537991222354" id="wal" target="_blank" rel="noopener">Falar no WhatsApp</a></p></footer>
+<footer><p><b>DonaLia Bistrô</b> · Sanduíche natural gourmet, geladinho gourmet e cheesecake</p><p><a href="https://wa.me/5537991222354" id="wal" target="_blank" rel="noopener">Falar no WhatsApp</a></p></footer>
 <script>
 let WA='5537991222354';
-let MENU={sanduiche:{n:'Sanduíche natural gourmet',d:'Patê de frango, purê de batatas e requeijão. Acompanha batata palha.',fl:[],p:16},'sanduiche-integral':{n:'Sanduíche Natural Integral Gourmet',d:'Versão no pão integral do nosso sanduíche natural gourmet.',fl:[],p:18},'chup-chup':{n:'Geladinho gourmet',d:'Cremoso e geladinho. Escolha o seu sabor.',fl:['Maracujá','Morango','Ninho com chocolate','Ninho com Oreo'],p:10}};
+let MENU={sanduiche:{n:'Sanduíche natural gourmet',d:'Patê de frango, purê de batatas e requeijão. Acompanha batata palha.',fl:[],p:16},'sanduiche-integral':{n:'Sanduíche Natural Integral Gourmet',d:'Versão no pão integral do nosso sanduíche natural gourmet.',fl:[],p:18},'chup-chup':{n:'Geladinho gourmet',d:'Cremoso e geladinho. Escolha o seu sabor.',fl:['Maracujá','Morango','Ninho com chocolate','Ninho com Oreo'],p:10},'cheesecake':{n:'Cheesecake no pote',d:'Cheesecake cremoso no pote. Escolha o sabor.',fl:['Morango','Prestígio'],p:12}};
 const $=s=>document.querySelector(s),R=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),E=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let cart=[];let NB=[];let STK={};const left=(k,f)=>{const v=STK[k+'|'+f];return v===undefined?Infinity:Math.max(0,v)};
 function fillB(){const q=x=>String(x).replace(/"/g,'&quot;');$('#bl').innerHTML=NB.map(n=>`<option value="${q(n.name)}">`).join('')+`<option value="${OUT}">`;togB()}
