@@ -181,12 +181,14 @@ try{const sr=await fetch(SB+'rpc/get_stock',{method:'POST',headers:{apikey:KEY,'
 const m={};pr.forEach(p=>{const fs=p.has_flavor?(p.flavors||[]).sort((a,b)=>a.sort-b.sort):[],fi={};fs.forEach(f=>{if(f.image_url)fi[f.name]=f.image_url});m[p.slug]={n:p.name,d:p.description,p:+p.price,img:p.image_url||'',fi,fl:fs.map(f=>f.name)}});
 if(Object.keys(m).length)MENU=m;
 const w=ss.find(x=>x.key=='whatsapp');if(w){WA=w.value;$('#wal').href='https://wa.me/'+WA}
-const so=ss.find(x=>x.key=='store_open'),cm=ss.find(x=>x.key=='closed_message');closedScreen(!!so&&String(so.value).trim().toLowerCase()=='false',cm&&cm.value);
+const so=ss.find(x=>x.key=='store_open'),cm=ss.find(x=>x.key=='closed_message');stateCheck();
 cart=cart.filter(c=>{c.q=Math.min(c.q,left(c.k,c.fl));return c.q>0});NB=nb.filter(x=>x.delivery_zones).map(x=>({name:x.name,fee:x.delivery_zones.fee==null?null:+x.delivery_zones.fee}));build();draw()}catch(e){}}
 function closedScreen(c,msg){let e=document.getElementById('closed');if(!c){if(e)e.remove();document.body.style.overflow='';return}
 if(!e){e=document.createElement('div');e.id='closed';e.className='closed';e.setAttribute('role','alertdialog');document.body.appendChild(e)}
 const t=document.createElement('div');t.className='bx';t.innerHTML='<img src="images/logo.webp" alt="DonaLia Bistrô"><h2>Estamos fechados</h2><p></p><button class="btn" type="button">Voltar</button>';t.querySelector('p').textContent=msg||'Estamos fechados no momento. Volte mais tarde!';
 t.querySelector('button').onclick=()=>{if(history.length>1)history.back();else location.reload()};e.replaceChildren(t);document.body.style.overflow='hidden'}
+async function stateCheck(){try{const r=await fetch(SB+'rpc/store_state',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:'{}'});if(!r.ok)return;const s=await r.json();closedScreen(!s.open,s.message)}catch(e){}}
+setInterval(stateCheck,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
-build();draw();load();
+build();draw();load();stateCheck();
 </script></body></html>
