@@ -83,11 +83,10 @@ footer{background:var(--g2);color:#F3E9D2;text-align:center;padding:30px 20px;fo
 .pixx{position:absolute;top:8px;right:12px;border:0;background:none;font-size:26px;line-height:1;color:var(--mut);cursor:pointer}
 .pixok{font-size:56px;line-height:1;margin:6px 0}
 </style></head><body>
-<header><div class="wrap"><img src="images/logo-small.webp" alt="DonaLia Bistrô"><b>DonaLia Bistrô</b><a href="#cardapio">Cardápio</a><a href="#pedido">Pedido</a></div></header>
+<header><div class="wrap"><img src="images/logo-small.webp" alt="DonaLia Bistrô"><b>DonaLia Bistrô</b><a href="cardapio/">Cardápio</a><a href="#pedido">Pedido</a></div></header>
 <div class="hero"><img class="c tl" src="images/corner-tl.webp" alt=""><img class="c tr" src="images/corner-tr.webp" alt=""><img class="c bl" src="images/corner-bl.webp" alt=""><img class="c br" src="images/corner-br.webp" alt="">
 <h1 class="lg"><img src="images/logo.webp" alt="DonaLia Bistrô"></h1><h2>Feito com carinho, do jeito que você gosta.</h2><p>Sanduíche natural gourmet, geladinho gourmet e cheesecake. Escolha e receba em casa.</p><a class="btn" href="#pedido">Fazer meu pedido</a></div>
 
-<section id="cardapio"><div class="wrap"><h2>Cardápio</h2><p class="sub">Escolha o seu preferido e monte o pedido logo abaixo.</p><div class="cards" id="cards"></div></div></section>
 
 <section id="pedido" class="dark"><div class="wrap"><h2>Monte seu pedido</h2><p class="sub">Escolha, adicione ao pedido e envie pelo WhatsApp. Você pode combinar vários itens.</p>
 <div class="cn" id="cn"></div><div id="tiles"></div>
@@ -126,7 +125,6 @@ function fee(){if($('#ent').value=='Retirada')return 0;const n=NB.find(x=>x.name
 const PAL=['#FBE7A8','#F7C9CF','#E9D3B5','#D9C9E8','#CFE3C4','#F6D7B8'];let TL=[];
 const key=(k,f)=>k+'|'+f,qty=(k,f)=>{const c=cart.find(x=>x.k==k&&x.fl==f);return c?c.q:0};
 function build(){TL=[];Object.entries(MENU).forEach(([k,m])=>{if(m.fl.length)m.fl.forEach(f=>TL.push({k,f,t:f,s:m.n,d:'',p:(m.fpr&&m.fpr[f]!=null)?m.fpr[f]:m.p,img:(m.fi&&m.fi[f])||m.img||'',n:m.n}));else TL.push({k,f:'',t:m.n,s:'',d:m.d,p:m.p,img:m.img||'',n:m.n})});
-$('#cards').innerHTML=Object.entries(MENU).map(([k,m])=>`<div class="card"><h3>${E(m.n)}</h3><p>${E(m.d)}</p>${m.fl.length?`<div class="fl">${m.fl.map(f=>`<span>${E(f)}${m.fpr&&m.fpr[f]!=null?` · ${R(m.fpr[f])}`:''}</span>`).join('')}</div>`:''}<div class="price">${R(m.p)}</div><button class="btn s" data-k="${E(k)}" type="button">Pedir este</button></div>`).join('');
 fillB();tiles()}
 const PAIRS=['sanduiche-coca','sanduiche-integral-coca-zero'],CATS=[['sand','Sanduíches','Natural e integral, feitos com carinho'],['combo','Combos','Sanduíche + refrigerante por um preço especial'],['chees','Cheesecake','No pote, escolha o sabor'],['gel','Geladinhos','Cremosos e geladinhos, escolha o seu sabor'],['mais','Mais opções','']];
 function catOf(k){const m=MENU[k]||{n:''};return(/coca/.test(k)||/ \+ /.test(m.n))?'combo':k=='chup-chup'?'gel':k=='cheesecake'?'chees':/^sanduiche/.test(k)?'sand':'mais'}
@@ -147,7 +145,6 @@ $('#tiles').onclick=e=>{const b=e.target.closest('button[data-a]');if(b)bump(+b.
 try{history.scrollRestoration='manual'}catch(e){}
 (function(){var ext=!document.referrer||document.referrer.indexOf(location.origin)!==0;if(!location.hash||(ext&&location.hash=='#pedido')){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}scrollTo(0,0);addEventListener('load',function(){scrollTo(0,0)})}})();
 document.querySelectorAll('header a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t){const y=t.getBoundingClientRect().top+scrollY-((document.querySelector('header')||{}).offsetHeight||0);scrollTo({top:Math.max(0,y),behavior:'smooth'})}}));
-$('#cards').onclick=e=>{const b=e.target.closest('button');if(!b)return;const m=MENU[b.dataset.k];if(m&&!m.fl.length&&!qty(b.dataset.k,''))bump(TL.findIndex(t=>t.k==b.dataset.k),1);location.hash='pedido'};
 $('#cart').onclick=e=>{const b=e.target.closest('.x');if(b){cart.splice(+b.dataset.x,1);draw()}};
 $('#ent').onchange=()=>{$('#endBox').classList.toggle('hide',$('#ent').value=='Retirada');$('#err').textContent='';draw()};
 $('#pag').onchange=()=>{const d=$('#pag').value=='dinheiro';$('#trBox').classList.toggle('hide',!d);$('#trVal').classList.toggle('hide',!d||$('#troco').value!='sim')};$('#troco').onchange=()=>$('#trVal').classList.toggle('hide',$('#troco').value!='sim');
