@@ -88,6 +88,7 @@ footer{background:var(--g2);color:#F3E9D2;text-align:center;padding:30px 20px;fo
 .cb .bd{padding:22px 20px 20px;display:flex;flex-direction:column;gap:8px}.cb h3{font:700 27px/1.1 "Cormorant Garamond",serif;color:#F3DFA8;padding-right:96px;min-height:2.2em;margin:0}
 .cb p{margin:0;font-size:14px;color:#DDD6B8}.cb .btn{margin-top:6px}
 .cbh{font-size:13px;color:var(--mut);margin:-6px 0 0;text-align:center}
+.cb .ph.pair{aspect-ratio:auto;display:flex;gap:10px;justify-content:center;align-items:stretch;padding:20px 14px 26px;background:linear-gradient(#FBEFD9,#F3E1BE)}.cb .ph.pair img{width:auto;max-width:none;height:min(190px,calc((88vw - 62px)/1.62));flex:none;border-radius:16px;border:3px solid #FFF6E6;box-shadow:0 5px 14px rgba(0,0,0,.14);background:#F3E4C8}
 @media (prefers-reduced-motion:reduce){.cb,.cb .ph::after,.tabs2 i{animation:none;transition:none}}
 </style></head><body>
 <header><div class="wrap"><img src="images/logo-small.webp" alt="DonaLia Bistrô"><b>DonaLia Bistrô</b><a href="#cardapio">Cardápio</a><a href="#pedido">Pedido</a></div></header>
@@ -133,10 +134,10 @@ function fee(){if($('#ent').value=='Retirada')return 0;const n=NB.find(x=>x.name
 const PAL=['#FBE7A8','#F7C9CF','#E9D3B5','#D9C9E8','#CFE3C4','#F6D7B8'];let TL=[];
 const key=(k,f)=>k+'|'+f,qty=(k,f)=>{const c=cart.find(x=>x.k==k&&x.fl==f);return c?c.q:0};
 function build(){TL=[];Object.entries(MENU).forEach(([k,m])=>{if(m.fl.length)m.fl.forEach(f=>TL.push({k,f,t:f,s:m.n,d:'',p:(m.fpr&&m.fpr[f]!=null)?m.fpr[f]:m.p,img:(m.fi&&m.fi[f])||m.img||'',n:m.n}));else TL.push({k,f:'',t:m.n,s:'',d:m.d,p:m.p,img:m.img||'',n:m.n})});
-const isCombo=(k,m)=>/coca/.test(k)||/ \+ /.test(m.n),CB=Object.entries(MENU).filter(([k,m])=>isCombo(k,m));
+const PAIRS=['sanduiche-coca','sanduiche-integral-coca-zero'],isCombo=(k,m)=>/coca/.test(k)||/ \+ /.test(m.n),CB=Object.entries(MENU).filter(([k,m])=>isCombo(k,m));
 $('#cards').innerHTML=Object.entries(MENU).filter(([k,m])=>!isCombo(k,m)).map(([k,m])=>`<div class="card"><h3>${E(m.n)}</h3><p>${E(m.d)}</p>${m.fl.length?`<div class="fl">${m.fl.map(f=>`<span>${E(f)}${m.fpr&&m.fpr[f]!=null?` · ${R(m.fpr[f])}`:''}</span>`).join('')}</div>`:''}<div class="price">${R(m.p)}</div><button class="btn s" data-k="${E(k)}" type="button">Pedir este</button></div>`).join('');
 $('#tabs2').classList.toggle('hide',!CB.length);if(!CB.length)showTab('menu');
-$('#combos').innerHTML=CB.map(([k,m])=>`<div class="cb"><span class="rb">COMBO</span><div class="pw"><div class="ph"><img src="${E(m.img||'images/produtos/'+k+'.webp')}" alt="${E(m.n)}" loading="lazy"></div><div class="st"><small>R$</small><b>${String(m.p.toFixed(2)).replace('.',',').replace(',00','')}</b></div></div><div class="bd"><h3>${E(m.n)}</h3><p>${E(m.d)}</p><button class="btn g" data-k="${E(k)}" type="button">Quero este combo</button></div></div>`).join('')+(CB.length>1?'':'');
+$('#combos').innerHTML=CB.map(([k,m])=>`<div class="cb"><span class="rb">COMBO</span><div class="pw"><div class="ph ${PAIRS.includes(k)?'pair':''}">${PAIRS.includes(k)?`<img src="images/produtos/${E(k)}-prato.webp" alt="${E(m.n)}" loading="lazy"><img src="images/produtos/${E(k)}-bebida.webp" alt="" loading="lazy">`:`<img src="${E(m.img||'images/produtos/'+k+'.webp')}" alt="${E(m.n)}" loading="lazy">`}</div><div class="st"><small>R$</small><b>${String(m.p.toFixed(2)).replace('.',',').replace(',00','')}</b></div></div><div class="bd"><h3>${E(m.n)}</h3><p>${E(m.d)}</p><button class="btn g" data-k="${E(k)}" type="button">Quero este combo</button></div></div>`).join('')+(CB.length>1?'':'');
 fillB();tiles()}
 function showTab(t){const c=t=='combos'&&!$('#tabs2').classList.contains('hide');$('#cards').classList.toggle('hide',c);$('#combos').classList.toggle('hide',!c);document.querySelectorAll('#tabs2 button').forEach(b=>b.classList.toggle('on',b.dataset.tab==(c?'combos':'menu')))}
 $('#tabs2').onclick=e=>{const b=e.target.closest('button');if(b)showTab(b.dataset.tab)};
